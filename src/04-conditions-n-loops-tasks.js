@@ -289,8 +289,26 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const str = ccn.toString();
+  let sum = 0;
+  let shouldDouble = false;
+
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    let digit = parseInt(str[i], 10);
+
+    if (shouldDouble) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+
+    sum += digit;
+    shouldDouble = !shouldDouble;
+  }
+
+  return sum % 10 === 0;
 }
 
 /**
@@ -418,8 +436,24 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(paths) {
+  if (paths.length === 0) return '';
+
+  const splitPaths = paths.map((path) => path.split('/'));
+  const minLength = Math.min(...splitPaths.map((parts) => parts.length));
+
+  const commonPath = [];
+
+  for (let i = 0; i < minLength; i += 1) {
+    const currentPart = splitPaths[0][i];
+    if (splitPaths.every((parts) => parts[i] === currentPart)) {
+      commonPath.push(currentPart);
+    } else {
+      break;
+    }
+  }
+
+  return commonPath.length > 0 ? `${commonPath.join('/')}/` : '';
 }
 
 
@@ -441,8 +475,27 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rows1 = m1.length;
+  const cols1 = m1[0].length;
+  const rows2 = m2.length;
+  const cols2 = m2[0].length;
+
+  if (cols1 !== rows2) {
+    throw new Error('Number of columns in the first matrix must be equal to the number of rows in the second matrix.');
+  }
+
+  const result = Array.from({ length: rows1 }, () => Array(cols2).fill(0));
+
+  for (let i = 0; i < rows1; i += 1) {
+    for (let j = 0; j < cols2; j += 1) {
+      for (let k = 0; k < cols1; k += 1) {
+        result[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  return result;
 }
 
 
