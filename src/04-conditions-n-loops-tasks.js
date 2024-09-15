@@ -46,8 +46,18 @@ function getFizzBuzz(num) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  if (n < 0) {
+    throw new Error('Factorial is not defined for negative numbers');
+  }
+  if (n === 0 || n === 1) {
+    return 1;
+  }
+  let result = 1;
+  for (let i = 2; i <= n; i += 1) {
+    result *= i;
+  }
+  return result;
 }
 
 
@@ -180,8 +190,14 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const charArray = Array.from(str);
+  const charCount = charArray.reduce((countMap, char) => {
+    countMap.set(char, (countMap.get(char) || 0) + 1);
+    return countMap;
+  }, new Map());
+
+  return charArray.find((char) => charCount.get(char) === 1) || null;
 }
 
 
