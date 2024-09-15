@@ -404,8 +404,25 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const lines = [
+    [position[0][0], position[0][1], position[0][2]],
+    [position[1][0], position[1][1], position[1][2]],
+    [position[2][0], position[2][1], position[2][2]],
+    [position[0][0], position[1][0], position[2][0]],
+    [position[0][1], position[1][1], position[2][1]],
+    [position[0][2], position[1][2], position[2][2]],
+    [position[0][0], position[1][1], position[2][2]],
+    [position[0][2], position[1][1], position[2][0]],
+  ];
+
+  const isWinner = (line) => line.every((cell) => cell && cell === line[0]);
+
+  const winner = lines
+    .map((line) => (isWinner(line) ? line[0] : undefined))
+    .find((result) => result !== undefined);
+
+  return winner;
 }
 
 
